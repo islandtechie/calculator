@@ -1,13 +1,45 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
     <head>
         <title>Calculator App</title>
         <meta charset="UTF-8">
         <meta name="description" content="My First Calculator App">
 
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+        <link rel="stylesheet" href="styles.css">
     </head>
     <body>
-        
+        <div class="calculator">
+            <input type="text" id="display">
+            <div class="function-buttons">
+                <button type="button" id="clear">CE</button>
+                <button type="button" id="save">M+</button>
+                <button type="button" id="clear">M-</button>
+                <button type="button" id="recall">MR</button>
+            </div>
+            <div class="calculator-body">
+                <div class="numpad">
+                    <button type="button" id="seven">7</button>
+                    <button type="button" id="eight">8</button>
+                    <button type="button" id="nine">9</button>
+                    <button type="button" id="four">4</button>
+                    <button type="button" id="five">5</button>
+                    <button type="button" id="six">6</button>
+                    <button type="button" id="one">1</button>
+                    <button type="button" id="two">2</button>
+                    <button type="button" id="three">3</button>
+                    <button type="button" id="zero">0</button>
+                    <button type="button" id="decimal">.</button>
+                    <button type="button" id="equal">=</button>
+                </div>
+                <div class="operators">
+                    <button type="button" id="divide">&#247;</button>
+                    <button type="button" id="multiply">&#215;</button>
+                    <button type="button" id="subtract">-</button>
+                    <button type="button" id="add">+</button>
+                </div>
+            </div>
+        </div>
     </body>
 </html>
