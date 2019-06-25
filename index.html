@@ -12,28 +12,28 @@
     <body>
         <div class="calculator">
             <input type="text" id="display">
-            <div class="function-buttons">
-                <button type="button" id="clear">CE</button>
+            <div id="function-buttons">
+                <button type="button" id="clear-input">C</button>
                 <button type="button" id="save">M+</button>
                 <button type="button" id="clear">M-</button>
                 <button type="button" id="recall">MR</button>
             </div>
             <div class="calculator-body">
-                <div class="numpad">
-                    <button type="button" id="seven">7</button>
-                    <button type="button" id="eight">8</button>
-                    <button type="button" id="nine">9</button>
-                    <button type="button" id="four">4</button>
-                    <button type="button" id="five">5</button>
-                    <button type="button" id="six">6</button>
-                    <button type="button" id="one">1</button>
-                    <button type="button" id="two">2</button>
-                    <button type="button" id="three">3</button>
-                    <button type="button" id="zero">0</button>
-                    <button type="button" id="decimal">.</button>
+                <div id="numpad">
+                    <button type="button" id="7">7</button>
+                    <button type="button" id="8">8</button>
+                    <button type="button" id="9">9</button>
+                    <button type="button" id="4">4</button>
+                    <button type="button" id="5">5</button>
+                    <button type="button" id="6">6</button>
+                    <button type="button" id="1">1</button>
+                    <button type="button" id="2">2</button>
+                    <button type="button" id="3">3</button>
+                    <button type="button" id="0">0</button>
+                    <button type="button" id="dot">.</button>
                     <button type="button" id="equal">=</button>
                 </div>
-                <div class="operators">
+                <div id="operators">
                     <button type="button" id="divide">&#247;</button>
                     <button type="button" id="multiply">&#215;</button>
                     <button type="button" id="subtract">-</button>
@@ -41,5 +41,7 @@
                 </div>
             </div>
         </div>
+
+        <script src="scripts.js"></script>
     </body>
 </html>

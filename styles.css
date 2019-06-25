@@ -21,13 +21,13 @@
     background-color: #fff;
 }
 
-.calculator > .function-buttons {
+.calculator > #function-buttons {
     display: flex;
     justify-content: space-between;
     margin-bottom: 5px;
 }
 
-.calculator > .function-buttons > button {
+.calculator > #function-buttons > button {
     width: 90px;
     height: 60px;
     font-size: 1.2em;
