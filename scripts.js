@@ -1,7 +1,9 @@
 function Calculator()
 {
     this.currentOperand = '0';
-    this.nextOperand = '';
+    this.tempOperand = '0';
+    this.subTotal = 0;
+    this.operator = '';
     this.memSave = 0;
     this.memClear = 0;
     this.memRecall = 0;
@@ -48,40 +50,50 @@ numpad.forEach(function(el) {
 //Init Operator Buttons
 var operator = document.querySelectorAll('#operators button');
 operator.forEach(function(el) {
-    switch (el.id) {
-        case 'add':
-            el.addEventListener('click', calculator.add);
-            break;
-        case 'subtract':
-            el.addEventListener('click', calculator.subtract);
-            break;
-        case 'divde':
-            el.addEventListener('click', calculator.divide);
-            break;
-        case 'multiply':
-            el.addEventListener('click', calculator.multiply);
-
-    }
+    el.addEventListener('click', function(el){
+        parseOperator(this.id);
+    });
 });
 
 function parseInput(input)
-{    
-    if (input === '.' && !calculator.currentOperand.includes('.')) {
-             calculator.currentOperand += input;
-    }
-
-    if (calculator.currentOperand == '0' && calculator.currentOperand.length == 1) {
-        if (input !== '0' || input == '0') {
-            calculator.currentOperand = input;
-        }       
-    }else{
-        calculator.currentOperand += input;
+{   if (input === '=') {
+        console.log('= pressed');
+    } else if (input === '.') {
+        processDecimalInput(input);
+    } else if (input === '0') {
+        processZeroInput(input);
+    } else {
+        processNonZeroOrDecimalInput(input);        
     }
 
     updateDisplay();
 }
 
+
+
+function processDecimalInput(input) {
+    if (!calculator.currentOperand.includes('.')) {
+        calculator.currentOperand += input;
+    }
+}
+
+function processZeroInput(input){
+    if (calculator.currentOperand != '0' && calculator.currentOperand.length != 1) {
+        calculator.currentOperand += input;
+    }
+}
+
+function processNonZeroOrDecimalInput(input) {
+    if (calculator.currentOperand === '0' && calculator.currentOperand.length === 1) {
+        calculator.currentOperand = input;
+    } else {
+        calculator.currentOperand += input;
+    }
+}
+
 function updateDisplay()
 {
     display.value = calculator.currentOperand;
+    console.log('UPDATE DISPLAY current: ' + calculator.currentOperand);
+    console.log('UPDATE DISPLAY temp: ' + calculator.tempOperand);
 }
