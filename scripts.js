@@ -88,10 +88,14 @@ function parseInput(input)
     checkClearButton();
 
     if (isOperationInProgress()) {
-        if (calculator.tempOperand === '') {
+        console.log('in function part 1');
+        if (calculator.tempOperand !== '') {
+            processOperation();
+            
+        }else{
             calculator.tempOperand = calculator.currentOperand;
         }
-        processOperation();
+        
     }else if (input === '=') {
         processEqualSignInput();
     } else if (input === '.') {
