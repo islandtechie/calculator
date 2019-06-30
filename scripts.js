@@ -1,7 +1,7 @@
 function Calculator()
 {
     this.currentOperand = '0';
-    this.tempOperand = '0';
+    this.tempOperand = '';
     this.subTotal = 0;
     this.operator = '';
     this.memSave = 0;
@@ -15,6 +15,7 @@ function Calculator()
 var calculator = new Calculator();
 
 var display = document.getElementById('display');
+var clearButton = document.getElementById('clear');
 
 //init Display value
 display.value = calculator.currentOperand;
@@ -34,7 +35,9 @@ functionButtons.forEach(function(el) {
             el.addEventListener('click', calculator.clearInput);
             break;
         case 'clear':
-            el.addEventListener('click', calculator.clear);
+            el.addEventListener('click', function(evt) {
+                clear(this);
+            });
 
     }
 });
@@ -55,9 +58,42 @@ operator.forEach(function(el) {
     });
 });
 
+function clear(el)
+{
+    if (el.textContent === 'CE') {
+        calculator.currentOperand = '0';
+        el.textContent = 'C';
+        console.log(' last entry cleared');
+    }else{
+        calculator.currentOperand = '0';
+        calculator.tempOperand = '';
+        calculator.subTotal = '';
+        calculator.operator = '';
+        console.log('calculator reset');
+    }
+
+    updateDisplay()
+}
+
+function checkClearButton()
+{
+    if (clearButton.textContent === 'C')
+    {
+        clearButton.textContent = 'CE'
+    }
+}
+
 function parseInput(input)
-{   if (input === '=') {
-        console.log('= pressed');
+{   
+    checkClearButton();
+
+    if (isOperationInProgress()) {
+        if (calculator.tempOperand === '') {
+            calculator.tempOperand = calculator.currentOperand;
+        }
+        processOperation();
+    }else if (input === '=') {
+        processEqualSignInput();
     } else if (input === '.') {
         processDecimalInput(input);
     } else if (input === '0') {
@@ -70,7 +106,31 @@ function parseInput(input)
 }
 
 
+function processEqualSignInput()
+{
+    
+}
 
+function processOperation()
+{
+    switch (calculator.operator)
+    {
+        case 'add':
+            addOperation();
+            break;
+    }
+    
+}
+
+function addOperation()
+{
+    calculator.currentOperand = parseInt(calculator.tempOperand) + parseInt(calculator.currentOperand);
+}
+
+function parseOperator(input) {
+    console.log(input);
+    calculator.operator = input;
+}
 function processDecimalInput(input) {
     if (!calculator.currentOperand.includes('.')) {
         calculator.currentOperand += input;
@@ -84,11 +144,22 @@ function processZeroInput(input){
 }
 
 function processNonZeroOrDecimalInput(input) {
+    
     if (calculator.currentOperand === '0' && calculator.currentOperand.length === 1) {
         calculator.currentOperand = input;
     } else {
         calculator.currentOperand += input;
     }
+}
+
+function isOperationInProgress()
+{
+    if (calculator.operator !== '')
+    {
+        return true;
+    }
+
+    return false;
 }
 
 function updateDisplay()
