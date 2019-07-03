@@ -1,8 +1,10 @@
 function Calculator()
 {
     this.currentOperand = '0';
-    this.tempOperand = '';
+    this.firstOperand = '';
+    this.nextOperand = '';
     this.subTotal = 0;
+    this.signFlag = 0;
     this.operator = '';
     this.memSave = 0;
     this.memClear = 0;
@@ -54,7 +56,7 @@ numpad.forEach(function(el) {
 var operator = document.querySelectorAll('#operators button');
 operator.forEach(function(el) {
     el.addEventListener('click', function(el){
-        parseOperator(this.id);
+        processOperation(this.id);
     });
 });
 
@@ -87,26 +89,90 @@ function parseInput(input)
 {   
     checkClearButton();
 
-    if (isOperationInProgress()) {
-        console.log('in function part 1');
-        if (calculator.tempOperand !== '') {
-            processOperation();
-            
-        }else{
-            calculator.tempOperand = calculator.currentOperand;
-        }
-        
-    }else if (input === '=') {
+    if (operationInProgress()) {
+        calculator.currentOperand = '0';
+        calculator.operator = '';
+    }
+
+    if (calculator.signFlag === 1)
+    {
+        calculator.signFlag = 0;
+    }
+
+    if (input === '=') {
         processEqualSignInput();
     } else if (input === '.') {
         processDecimalInput(input);
     } else if (input === '0') {
         processZeroInput(input);
-    } else {
+    }else{
         processNonZeroOrDecimalInput(input);        
     }
 
     updateDisplay();
+}
+
+function processOperation(input)
+{
+    parseOperator(input);
+
+    
+        switch (input)
+        {
+            case 'add':
+                addOperation();
+                break;
+            case 'subtract':
+                subtractOperation();
+                break;
+        }
+
+    
+    
+    updateDisplay();    
+}
+
+function operationInProgress()
+{
+    if ( calculator.operator !== '')
+    {
+        return true;
+    }
+}
+
+function addOperation()
+{
+    calculator.subTotal += parseFloat(calculator.currentOperand);
+    calculator.currentOperand = calculator.subTotal.toString();
+}
+
+function subtractOperation()
+{
+    
+        if (calculator.signFlag === 2){
+
+        }else{
+            calculator.subTotal = calculator.subTotal - parseFloat(calculator.currentOperand);
+            calculator.currentOperand = calculator.subTotal.toString();
+        }
+   
+    
+}
+
+function parseOperator(input)
+{
+    calculator.operator = input;
+    
+    if (input === 'subtract') 
+    {
+        processSignFlag();
+    }
+    
+}
+
+function processSignFlag()
+{
+    calculator.signFlag += 1;
 }
 
 
@@ -115,26 +181,6 @@ function processEqualSignInput()
     
 }
 
-function processOperation()
-{
-    switch (calculator.operator)
-    {
-        case 'add':
-            addOperation();
-            break;
-    }
-    
-}
-
-function addOperation()
-{
-    calculator.currentOperand = parseInt(calculator.tempOperand) + parseInt(calculator.currentOperand);
-}
-
-function parseOperator(input) {
-    console.log(input);
-    calculator.operator = input;
-}
 function processDecimalInput(input) {
     if (!calculator.currentOperand.includes('.')) {
         calculator.currentOperand += input;
