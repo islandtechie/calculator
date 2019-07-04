@@ -2,9 +2,9 @@ function Calculator()
 {
     this.currentOperand = '0';
     this.firstOperand = '';
-    this.nextOperand = '';
+    this.secondOperand = '';
     this.subTotal = 0;
-    this.signFlag = 0;
+    this.inProgress = false;
     this.operator = '';
     this.memSave = 0;
     this.memClear = 0;
@@ -60,45 +60,8 @@ operator.forEach(function(el) {
     });
 });
 
-function clear(el)
-{
-    if (el.textContent === 'CE') {
-        calculator.currentOperand = '0';
-        el.textContent = 'C';
-        console.log(' last entry cleared');
-    }else{
-        calculator.currentOperand = '0';
-        calculator.tempOperand = '';
-        calculator.subTotal = '';
-        calculator.operator = '';
-        console.log('calculator reset');
-    }
-
-    updateDisplay()
-}
-
-function checkClearButton()
-{
-    if (clearButton.textContent === 'C')
-    {
-        clearButton.textContent = 'CE'
-    }
-}
-
 function parseInput(input)
 {   
-    checkClearButton();
-
-    if (operationInProgress()) {
-        calculator.currentOperand = '0';
-        calculator.operator = '';
-    }
-
-    if (calculator.signFlag === 1)
-    {
-        calculator.signFlag = 0;
-    }
-
     if (input === '=') {
         processEqualSignInput();
     } else if (input === '.') {
@@ -111,70 +74,6 @@ function parseInput(input)
 
     updateDisplay();
 }
-
-function processOperation(input)
-{
-    parseOperator(input);
-
-    
-        switch (input)
-        {
-            case 'add':
-                addOperation();
-                break;
-            case 'subtract':
-                subtractOperation();
-                break;
-        }
-
-    
-    
-    updateDisplay();    
-}
-
-function operationInProgress()
-{
-    if ( calculator.operator !== '')
-    {
-        return true;
-    }
-}
-
-function addOperation()
-{
-    calculator.subTotal += parseFloat(calculator.currentOperand);
-    calculator.currentOperand = calculator.subTotal.toString();
-}
-
-function subtractOperation()
-{
-    
-        if (calculator.signFlag === 2){
-
-        }else{
-            calculator.subTotal = calculator.subTotal - parseFloat(calculator.currentOperand);
-            calculator.currentOperand = calculator.subTotal.toString();
-        }
-   
-    
-}
-
-function parseOperator(input)
-{
-    calculator.operator = input;
-    
-    if (input === 'subtract') 
-    {
-        processSignFlag();
-    }
-    
-}
-
-function processSignFlag()
-{
-    calculator.signFlag += 1;
-}
-
 
 function processEqualSignInput()
 {
@@ -194,27 +93,62 @@ function processZeroInput(input){
 }
 
 function processNonZeroOrDecimalInput(input) {
-    
-    if (calculator.currentOperand === '0' && calculator.currentOperand.length === 1) {
+    if (calculator.inProgress === true) {
+        if (calculator.secondOperand === '') {
+            calculator.secondOperand = input;
+        }else{
+            calculator.secondOperand += input
+        }
+        calculator.currentOperand = calculator.secondOperand;
+
+    }else if (calculator.currentOperand === '0' && calculator.currentOperand.length === 1) {
         calculator.currentOperand = input;
     } else {
         calculator.currentOperand += input;
     }
-}
 
-function isOperationInProgress()
-{
-    if (calculator.operator !== '')
-    {
-        return true;
-    }
-
-    return false;
 }
 
 function updateDisplay()
 {
     display.value = calculator.currentOperand;
-    console.log('UPDATE DISPLAY current: ' + calculator.currentOperand);
-    console.log('UPDATE DISPLAY temp: ' + calculator.tempOperand);
+}
+
+function processOperation(operator)
+{
+    if (calculator.inProgress === false){
+        calculator.inProgress = true;
+
+        calculator.firstOperand = calculator.currentOperand;
+    }else{
+
+        switch (operator)
+        {
+            case 'add':
+                addOperation();
+                break;
+            case 'subtract':
+                subtractOperation();
+                break;
+        }
+
+        updateDisplay();
+    }
+}
+
+function resetValues()
+{
+    calculator.firstOperand = ''; 
+    calculator.secondOperand = '';
+}
+
+function addOperation()
+{
+    if (calculator.inProgress === true && calculator.firstOperand === '' || calculator.secondOperand === '') {
+        calculator.subTotal += parseFloat(calculator.currentOperand);
+    }else{
+        calculator.subTotal = parseFloat(calculator.firstOperand) + parseFloat(calculator.secondOperand);
+        calculator.currentOperand = calculator.subTotal.toString();
+        resetValues();
+    }
 }

@@ -1,0 +1,130 @@
+function clear(el)
+{
+    if (el.textContent === 'CE') {
+        calculator.currentOperand = '0';
+        el.textContent = 'C';
+        console.log(' last entry cleared');
+    }else{
+        calculator.currentOperand = '0';
+        calculator.tempOperand = '';
+        calculator.subTotal = '';
+        calculator.operator = '';
+        console.log('calculator reset');
+    }
+
+    updateDisplay()
+}
+
+function checkClearButton()
+{
+    if (clearButton.textContent === 'C')
+    {
+        clearButton.textContent = 'CE'
+    }
+}
+
+function parseInput(input)
+{   
+    checkClearButton();
+
+    if (operationInProgress()) {
+            calculator.currentOperand = '0';
+            calculator.operator = '';
+    }
+
+    if (input === '=') {
+        processEqualSignInput();
+    } else if (input === '.') {
+        processDecimalInput(input);
+    } else if (input === '0') {
+        processZeroInput(input);
+    }else{
+        processNonZeroOrDecimalInput(input);        
+    }
+
+    updateDisplay();
+}
+
+function processOperation(input)
+{
+    parseOperator(input);
+
+    operation(input);   
+    
+    updateDisplay();    
+}
+
+function operation(operator)
+{
+    switch (operator)
+    {
+        case 'add':
+            addOperation();
+            break;
+        case 'subtract':
+            subtractOperation();
+            break;
+    }
+}
+
+function operationInProgress()
+{
+    return calculator.operator !== '';
+}
+
+function addOperation()
+{
+    calculator.subTotal += parseFloat(calculator.currentOperand);
+    calculator.currentOperand = calculator.subTotal.toString();
+}
+
+function subtractOperation()
+{
+    if (calculator.subTotal === 0) {
+        calculator.subTotal = parseFloat(calculator.currentOperand);
+    }else {
+        calculator.subTotal -= parseFloat(calculator.currentOperand);
+        calculator.currentOperand = calculator.subTotal.toString();
+    }
+}
+
+function parseOperator(input)
+{
+    calculator.operator = input; 
+}
+
+
+function processEqualSignInput()
+{
+    if (operationInProgress()) {
+        operation(calculator.operator);
+    }
+}
+
+function processDecimalInput(input) {
+    if (!calculator.currentOperand.includes('.')) {
+        calculator.currentOperand += input;
+    }
+}
+
+function processZeroInput(input){
+    if (calculator.currentOperand != '0' && calculator.currentOperand.length != 1) {
+        calculator.currentOperand += input;
+    }
+}
+
+function processNonZeroOrDecimalInput(input) {
+    
+    if (calculator.currentOperand === '0' && calculator.currentOperand.length === 1) {
+        calculator.currentOperand = input;
+    } else {
+        calculator.currentOperand += input;
+    }
+}
+
+function updateDisplay()
+{
+    display.value = calculator.currentOperand;
+    console.log('UPDATE DISPLAY current: ' + calculator.currentOperand);
+    console.log('UPDATE DISPLAY temp: ' + calculator.tempOperand);
+}
