@@ -27,17 +27,19 @@ console.log(display.value);
 var functionButtons = document.querySelectorAll('#function-buttons button');
 functionButtons.forEach(function(el) {
     switch (el.id) {
-        case 'save':
-            el.addEventListener('click', calculator.save);
+        case 'save-mem':
+            el.addEventListener('click',  saveOperation);
             break;
         case 'recall':
-            el.addEventListener('click', calculator.recall);
+            el.addEventListener('click', function(el) {
+                recallOperation(el.target);
+            });
             break;
-        case 'clear-input':
-            el.addEventListener('click', calculator.clearInput);
+        case 'clear-mem':
+            el.addEventListener('click', clearInputOperation);
             break;
         case 'clear':
-            el.addEventListener('click', function(evt) {
+            el.addEventListener('click', function() {
                 clear(this);
             });
 
@@ -59,6 +61,35 @@ operator.forEach(function(el) {
         processOperation(this.id);
     });
 });
+
+function saveOperation()
+{
+    console.log('save');
+}
+
+function clearInputOperation()
+{
+    console.log('clear-mem');
+}
+
+function recallOperation(e)
+{
+    if (e.innerHTML === 'MS') {
+        console.log('MS');
+        if ( calculator.currentOperand !=='0') {
+            calculator.memSave = calculator.currentOperand;
+        }
+        e.innerHTML = 'MR';
+    }else{
+        console.log('MR');
+        console.log(calculator.memSave)
+    }
+}
+
+function clear()
+{
+    
+}
 
 function parseInput(input)
 {   
@@ -191,7 +222,9 @@ function processDecimalInput(input) {
 }
 
 function processZeroInput(input){
-    if (calculator.currentOperand != '0' && calculator.currentOperand.length != 1) {
+    if (calculator.currentOperand === '0' && calculator.currentOperand.length === 1) {
+        calculator.currentOperand = input;
+    }else{
         calculator.currentOperand += input;
     }
 }
