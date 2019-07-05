@@ -82,7 +82,7 @@ function recallOperation(e)
         e.innerHTML = 'MR';
     }else{
         console.log('MR');
-        console.log(calculator.memSave)
+        console.log(calculator.memSave);
     }
 }
 
