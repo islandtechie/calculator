@@ -114,6 +114,17 @@ function operationInProgress()
     return calculator.operator !== '';
 }
 
+function multiplyOperation()
+{
+    if (calculator.subTotal === 0) {
+        calculator.subTotal = parseFloat(calculator.currentOperand);
+    }else{
+        calculator.subTotal = calculator.subTotal * parseFloat(calculator.currentOperand);
+        calculator.currentOperand = calculator.subTotal.toString();
+    }
+
+}
+
 function divideOperation()
 {
     if (calculator.subTotal === 0) {
@@ -163,6 +174,10 @@ function processEqualSignInput()
                 break;
             case 'divide':
                 calculator.subTotal = calculator.subTotal / parseFloat(calculator.currentOperand);
+                calculator.currentOperand = calculator.subTotal.toString();
+                break;
+            case 'multiply':
+                calculator.subTotal = calculator.subTotal * parseFloat(calculator.currentOperand);
                 calculator.currentOperand = calculator.subTotal.toString();
                 break;
         }
