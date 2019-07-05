@@ -27,8 +27,8 @@ console.log(display.value);
 var functionButtons = document.querySelectorAll('#function-buttons button');
 functionButtons.forEach(function(el) {
     switch (el.id) {
-        case 'save-mem':
-            el.addEventListener('click',  saveOperation);
+        case 'mem-add':
+            el.addEventListener('click',  memAddOperation);
             break;
         case 'recall':
             el.addEventListener('click', function(el) {
@@ -62,9 +62,10 @@ operator.forEach(function(el) {
     });
 });
 
-function saveOperation()
+function memAddOperation()
 {
-    console.log('save');
+    alert('yo');
+    calculator.memSave += parseFloat(calculator.currentOperand);
 }
 
 function clearInputOperation()
@@ -77,7 +78,7 @@ function recallOperation(e)
     if (e.innerHTML === 'MS') {
         console.log('MS');
         if ( calculator.currentOperand !=='0') {
-            calculator.memSave = calculator.currentOperand;
+            calculator.memSave = parseFloat(calculator.currentOperand);
         }
         e.innerHTML = 'MR';
     }else{
