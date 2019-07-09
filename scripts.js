@@ -18,7 +18,7 @@ var calculator = new Calculator();
 
 var display = document.getElementById('display');
 var clearButton = document.getElementById('clear');
-var memClearButton = document.getElementById('mem-clear');
+var memClearButton = document.getElementById('recall');
 
 //init Display value
 display.value = calculator.currentOperand;
@@ -67,8 +67,11 @@ operator.forEach(function(el) {
 function memClearOperation()
 {
     calculator.memSave = 0;
+    calculator.currentOperand = '0';
     clearButton.textContent = "C";
     memClearButton.textContent = 'MS';
+
+    updateDisplay();
 }
 
 function clear()
