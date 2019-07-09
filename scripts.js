@@ -18,6 +18,7 @@ var calculator = new Calculator();
 
 var display = document.getElementById('display');
 var clearButton = document.getElementById('clear');
+var memClearButton = document.getElementById('mem-clear');
 
 //init Display value
 display.value = calculator.currentOperand;
@@ -30,19 +31,20 @@ functionButtons.forEach(function(el) {
         case 'mem-add':
             el.addEventListener('click',  memAddOperation);
             break;
+        case 'mem-subtract':
+            el.addEventListener('click',  memSubtractOperation);
+            break;
+        case 'mem-clear':
+            el.addEventListener('click',  memClearOperation);
+            break;
         case 'recall':
             el.addEventListener('click', function(el) {
                 recallOperation(el.target);
             });
             break;
-        case 'clear-mem':
-            el.addEventListener('click', clearInputOperation);
-            break;
         case 'clear':
-            el.addEventListener('click', function() {
-                clear(this);
-            });
-
+            el.addEventListener('click', clear);
+            break;
     }
 });
 
@@ -62,15 +64,52 @@ operator.forEach(function(el) {
     });
 });
 
-function memAddOperation()
+function memClearOperation()
 {
-    alert('yo');
-    calculator.memSave += parseFloat(calculator.currentOperand);
+    calculator.memSave = 0;
+    clearButton.textContent = "C";
+    memClearButton.textContent = 'MS';
 }
 
-function clearInputOperation()
+function clear()
 {
-    console.log('clear-mem');
+    if (clearButton.textContent === "CE")
+    {
+        calculator.currentOperand = '0';
+        clearButton.textContent = "C"
+    }else{
+        calculator.currentOperand = '0';
+        calculator.subTotal = 0;
+        calculator.history = '';
+        calculator.operator = '';
+    }
+
+    updateDisplay();
+}
+
+function setClearButton(input)
+{
+    if (input > 0 || calculator.currentOperand !== '0')
+    {
+        clearButton.textContent = "CE"
+    }
+}
+
+function memAddOperation()
+{
+    
+    calculator.memSave += parseFloat(calculator.currentOperand);
+    calculator.currentOperand = '0';
+    console.log(calculator.memSave);
+    updateDisplay();
+}
+
+function memSubtractOperation()
+{
+    calculator.memSave -= parseFloat(calculator.currentOperand);
+    calculator.currentOperand = '0';
+    console.log(calculator.memSave);
+    updateDisplay();
 }
 
 function recallOperation(e)
@@ -79,21 +118,22 @@ function recallOperation(e)
         console.log('MS');
         if ( calculator.currentOperand !=='0') {
             calculator.memSave = parseFloat(calculator.currentOperand);
+            calculator.currentOperand = '0';
+            console.log(calculator.memSave);
         }
         e.innerHTML = 'MR';
     }else{
-        console.log('MR');
-        console.log(calculator.memSave);
+        calculator.currentOperand = calculator.memSave.toString();
+        clearButton.textContent = "CE";
     }
-}
 
-function clear()
-{
-    
+    updateDisplay();
 }
 
 function parseInput(input)
 {   
+    setClearButton(input);
+
     if (operationInProgress()) {
         calculator.currentOperand = '0';
         calculator.history = calculator.operator;
