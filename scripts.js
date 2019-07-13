@@ -3,6 +3,7 @@ function Calculator() {
     this.secondOperand = null;
     this.subTotal = 0;
     this.currentOperation = null;
+    this.savedOperand = null;
 }
 
 let calculator = new Calculator();
@@ -23,6 +24,29 @@ document.getElementById('clear').addEventListener('click', function() {
         calculator.secondOperand = null;
 
         updateDisplay(0);
+});
+
+document.getElementById('mem-clear').addEventListener('click', function(el) {
+    calculator.savedOperand = null;
+});
+
+document.getElementById('mem-recall').addEventListener('click', function(el) {
+    if (calculator.firstOperand === null) {
+        calculator.firstOperand = calculator.savedOperand;
+    }else{
+        calculator.secondOperand = calculator.savedOperand;
+    }
+
+    updateDisplay(calculator.savedOperand);
+});
+
+document.getElementById('mem-save').addEventListener('click', function(el) {
+    if (calculator.secondOperand === null) {
+        calculator.savedOperand = calculator.firstOperand;
+    }else{
+        calculator.savedOperand = calculator.secondOperand;
+    }
+    updateDisplay(calculator.savedOperand);
 });
 
 document.getElementById('add').addEventListener('click', function() {
@@ -153,10 +177,10 @@ function performEqualOperation() {
                 performSubtraction();
                 break;
             case 'divide':
-                divideOperation();
+                performDivision();
                 break;
             case 'multiply': 
-                multiplyOperation();
+                performMultiplication();
                 break;
         }
     
