@@ -128,3 +128,20 @@ function updateDisplay()
     console.log('UPDATE DISPLAY current: ' + calculator.currentOperand);
     console.log('UPDATE DISPLAY temp: ' + calculator.tempOperand);
 }
+
+
+
+if (calculator.currentOperation)
+    {
+        if (calculator.secondOperand.length > 10) {
+            calculator.secondOperand = calculator.secondOperand.substring(0,calculator.secondOperand.length - 1);
+        }
+        updateDisplay(calculator.secondOperand);
+    }else{
+
+        if (calculator.firstOperand.length <= 10) {
+            updateDisplay(calculator.firstOperand);
+        }else{
+            calculator.firstOperand = calculator.firstOperand.substring(0,calculator.firstOperand.length - 1);
+        }
+    } 

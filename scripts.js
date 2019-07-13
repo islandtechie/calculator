@@ -206,6 +206,5 @@ function parseInput(input)
         updateDisplay(calculator.secondOperand);
     }else{
         updateDisplay(calculator.firstOperand);
-
     }    
 }
