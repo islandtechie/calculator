@@ -17,6 +17,14 @@ numpad.forEach(function(el) {
     });
 });
 
+document.getElementById('clear').addEventListener('click', function() {
+        calculator.currentOperation = null;
+        calculator.firstOperand = null;
+        calculator.secondOperand = null;
+
+        updateDisplay(0);
+});
+
 document.getElementById('add').addEventListener('click', function() {
     if (calculator.currentOperation) {
         performEqualOperation()
@@ -31,7 +39,7 @@ document.getElementById('multiply').addEventListener('click', function() {
         performEqualOperation()
         updateDisplay(calculator.firstOperand);
     }
-    
+
     calculator.currentOperation = 'multiply';
 });
 
@@ -111,25 +119,25 @@ function processNonZeroOrDecimalInput(input) {
     }
 }
 
-function addOperation() {
+function performAddition() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) + parseFloat(calculator.secondOperand);
     calculator.secondOperand = null;
     calculator.currentOperation = null;
 }
 
-function subtractOperation() {
+function performSubtraction() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) - parseFloat(calculator.secondOperand);
     calculator.secondOperand = null;
     calculator.currentOperation = null;
 }
 
-function multiplyOperation() {
+function performMultiplication() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) * parseFloat(calculator.secondOperand);
     calculator.secondOperand = null;
     calculator.currentOperation = null;
 }
 
-function divideOperation() {
+function performDivision() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) / parseFloat(calculator.secondOperand);
     calculator.secondOperand = null;
     calculator.currentOperation = null;
@@ -139,21 +147,23 @@ function performEqualOperation() {
     if (calculator.currentOperation) {
         switch (calculator.currentOperation) {
             case 'add':
-                addOperation();
+                performAddition();
                 break;
             case 'subtract':
-                subtractOperation();
+                performSubtraction();
                 break;
             case 'divide':
                 divideOperation();
                 break;
-            case 'multiply':
+            case 'multiply': 
                 multiplyOperation();
                 break;
         }
+    
+    }else{
+        calculator.firstOperand = '0';
     }
 }
-
 
 function parseInput(input)
 { 
@@ -172,5 +182,6 @@ function parseInput(input)
         updateDisplay(calculator.secondOperand);
     }else{
         updateDisplay(calculator.firstOperand);
+
     }    
 }
