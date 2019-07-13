@@ -30,8 +30,17 @@
 .calculator > #function-buttons > button {
     width: 90px;
     height: 60px;
+    border-radius: 4px;
     font-size: 1.2em;
+    background-color: black;
+    color: white;
 }
+
+.calculator-body button:focus,
+.calculator > #function-buttons > button:focus {
+    outline: none;
+}
+
 .calculator-body {
     display: flex;
 }
@@ -44,6 +53,7 @@
     height: 91px;
     font-size: 2.5em;
 }
+
 
 .calculator-body button:active {
     background-color: lightslategray;
