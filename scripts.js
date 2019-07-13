@@ -137,26 +137,31 @@ function processNonZeroOrDecimalInput(input) {
 
 function performAddition() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) + parseFloat(calculator.secondOperand);
-    calculator.secondOperand = null;
-    calculator.currentOperation = null;
+    resetValues(1);
 }
 
 function performSubtraction() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) - parseFloat(calculator.secondOperand);
-    calculator.secondOperand = null;
-    calculator.currentOperation = null;
+    resetValues(1);
 }
 
 function performMultiplication() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) * parseFloat(calculator.secondOperand);
-    calculator.secondOperand = null;
-    calculator.currentOperation = null;
+    resetValues(1);
 }
 
 function performDivision() {
     calculator.firstOperand = parseFloat(calculator.firstOperand) / parseFloat(calculator.secondOperand);
-    calculator.secondOperand = null;
-    calculator.currentOperation = null;
+    resetValues(1);
+}
+
+function resetValues(level) {
+    switch(level) {
+        case 1:
+            calculator.secondOperand = null;
+            calculator.currentOperation = null;
+            break;
+    }
 }
 
 function performEqualOperation() {
@@ -192,6 +197,8 @@ function parseInput(input)
     }else{
         processNonZeroOrDecimalInput(input);        
     }
+
+   
 
     if (calculator.currentOperation)
     {
