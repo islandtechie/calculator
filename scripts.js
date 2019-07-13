@@ -1,7 +1,6 @@
 function Calculator() {
     this.firstOperand = null;
     this.secondOperand = null;
-    this.subTotal = 0;
     this.currentOperation = null;
     this.savedOperand = null;
 }
@@ -28,62 +27,55 @@ document.getElementById('clear').addEventListener('click', function() {
 
 document.getElementById('mem-clear').addEventListener('click', function(el) {
     calculator.savedOperand = null;
+    updateDisplay(0);
 });
 
 document.getElementById('mem-recall').addEventListener('click', function(el) {
-    if (calculator.firstOperand === null) {
+    if (calculator.savedOperand === null){
+        calculator.savedOperand = '0';
+    }else if (calculator.firstOperand === null) {
         calculator.firstOperand = calculator.savedOperand;
     }else{
         calculator.secondOperand = calculator.savedOperand;
     }
-
     updateDisplay(calculator.savedOperand);
 });
 
 document.getElementById('mem-save').addEventListener('click', function(el) {
     if (calculator.secondOperand === null) {
         calculator.savedOperand = calculator.firstOperand;
+        calculator.firstOperand = null;
     }else{
         calculator.savedOperand = calculator.secondOperand;
+        calculator.secondOperand = null;
     }
-    updateDisplay(calculator.savedOperand);
+    updateDisplay('0');
 });
 
 document.getElementById('add').addEventListener('click', function() {
-    if (calculator.currentOperation) {
-        performEqualOperation()
-        updateDisplay(calculator.firstOperand);
-    }
-    
-    calculator.currentOperation = 'add';
+    processOperationEvent('add');
 });
 
 document.getElementById('multiply').addEventListener('click', function() {
-    if (calculator.currentOperation) {
-        performEqualOperation()
-        updateDisplay(calculator.firstOperand);
-    }
-
-    calculator.currentOperation = 'multiply';
+    processOperationEvent('multiply');
 });
 
 document.getElementById('divide').addEventListener('click', function() {
-    if (calculator.currentOperation) {
-        performEqualOperation()
-        updateDisplay(calculator.firstOperand);
-    }
-
-    calculator.currentOperation = 'divide';
+    processOperationEvent('divide');
 });
 
 document.getElementById('subtract').addEventListener('click', function() {
+   processOperationEvent('subtract');
+});
+
+function processOperationEvent(operation) {
     if (calculator.currentOperation) {
         performEqualOperation()
         updateDisplay(calculator.firstOperand);
     }
 
-    calculator.currentOperation = 'subtract';
-});
+    calculator.currentOperation = operation;
+}
 
 function updateDisplay(value) {
     display.value = value;
