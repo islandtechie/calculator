@@ -180,6 +180,8 @@ function performEqualOperation() {
                 performMultiplication();
                 break;
         }
+
+        formatDecimalPlaces(calculator.firstOperand.toString());
     
     }else{
         calculator.firstOperand = '0';
@@ -198,12 +200,28 @@ function parseInput(input)
         processNonZeroOrDecimalInput(input);        
     }
 
-   
-
     if (calculator.currentOperation)
     {
+        calculator.secondOperand = checkDigitLength(calculator.secondOperand);
         updateDisplay(calculator.secondOperand);
     }else{
+        calculator.firstOperand = checkDigitLength(calculator.firstOperand);
         updateDisplay(calculator.firstOperand);
     }    
+}
+
+function checkDigitLength(operand) {
+    if (operand && operand.length > 10) {
+        return operand.substring(0, operand.length - 1);
+    }else{
+        return operand;
+    }
+}
+
+function formatDecimalPlaces(value) {
+    if (value.includes('.')) {
+        return parseFloat(value).toFixed(3);
+    }else{
+        return value;
+    }
 }
