@@ -180,12 +180,13 @@ function performEqualOperation() {
                 performMultiplication();
                 break;
         }
-
-        formatDecimalPlaces(calculator.firstOperand.toString());
     
     }else{
         calculator.firstOperand = '0';
     }
+
+    console.log(formatDecimalPlaces(calculator.firstOperand.toString()));
+    calculator.firstOperand = formatDecimalPlaces(calculator.firstOperand.toString());
 }
 
 function parseInput(input)
