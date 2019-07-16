@@ -185,7 +185,6 @@ function performEqualOperation() {
         calculator.firstOperand = '0';
     }
 
-    console.log(formatDecimalPlaces(calculator.firstOperand.toString()));
     calculator.firstOperand = formatDecimalPlaces(calculator.firstOperand.toString());
 }
 
