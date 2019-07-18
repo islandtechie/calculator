@@ -211,7 +211,7 @@ function parseInput(input)
         }else{
             calculator.subTotal = checkDigitLength(calculator.subTotal);
             updateDisplay(calculator.subTotal);
-            calculator.firstOperand = null
+            calculator.firstOperand = null;
         }        
     }else if (calculator.currentOperation)
     {
