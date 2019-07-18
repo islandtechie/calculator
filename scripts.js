@@ -184,7 +184,6 @@ function performEqualOperation() {
     }else{
         calculator.firstOperand = '0';
     }
-
     calculator.firstOperand = formatDecimalPlaces(calculator.firstOperand.toString());
 }
 
@@ -220,7 +219,8 @@ function checkDigitLength(operand) {
 
 function formatDecimalPlaces(value) {
     if (value.includes('.')) {
-        return parseFloat(value).toFixed(3);
+        const fixedDecimal = parseFloat(value).toFixed(3).toString();
+        return parseFloat(fixedDecimal);
     }else{
         return value;
     }
