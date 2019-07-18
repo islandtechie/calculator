@@ -1,6 +1,7 @@
 function Calculator() {
     this.firstOperand = null;
     this.secondOperand = null;
+    this.subTotal = null;
     this.currentOperation = null;
     this.savedOperand = null;
 }
@@ -18,10 +19,7 @@ numpad.forEach(function(el) {
 });
 
 document.getElementById('clear').addEventListener('click', function() {
-        calculator.currentOperation = null;
-        calculator.firstOperand = null;
-        calculator.secondOperand = null;
-
+        resetValues(2);
         updateDisplay(0);
 });
 
@@ -161,6 +159,12 @@ function resetValues(level) {
             calculator.secondOperand = null;
             calculator.currentOperation = null;
             break;
+        case 2:
+            calculator.currentOperation = null;
+            calculator.firstOperand = null;
+            calculator.secondOperand = null;
+            calculator.subTotal = null;
+            break;
     }
 }
 
@@ -184,7 +188,7 @@ function performEqualOperation() {
     }else{
         calculator.firstOperand = '0';
     }
-    calculator.firstOperand = formatDecimalPlaces(calculator.firstOperand.toString());
+    calculator.subTotal = formatDecimalPlaces(calculator.firstOperand.toString());
 }
 
 function parseInput(input)
@@ -199,7 +203,17 @@ function parseInput(input)
         processNonZeroOrDecimalInput(input);        
     }
 
-    if (calculator.currentOperation)
+    if(calculator.subTotal) {
+        if (calculator.currentOperation) {
+            calculator.firstOperand = calculator.subTotal;
+            calculator.secondOperand = checkDigitLength(calculator.secondOperand);
+            updateDisplay(calculator.secondOperand);
+        }else{
+            calculator.subTotal = checkDigitLength(calculator.subTotal);
+            updateDisplay(calculator.subTotal);
+            calculator.firstOperand = null
+        }        
+    }else if (calculator.currentOperation)
     {
         calculator.secondOperand = checkDigitLength(calculator.secondOperand);
         updateDisplay(calculator.secondOperand);
