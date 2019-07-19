@@ -80,6 +80,11 @@ function updateDisplay(value) {
 }
 
 function processDecimalInput(input) {
+    if(calculator.subTotal) {
+        calculator.firstOperand = calculator.subTotal;
+        calculator.subTotal = null;
+    }
+
     if (calculator.currentOperation) {
         if (calculator.secondOperand === null || calculator.secondOperand === '0') {
             calculator.secondOperand = '0.'
@@ -118,6 +123,11 @@ function processZeroInput(input) {
 }
 
 function processNonZeroOrDecimalInput(input) {
+    if(calculator.subTotal) {
+        calculator.firstOperand = calculator.subTotal;
+        calculator.subTotal = null;
+    }
+
     if (calculator.currentOperation) {
         if (calculator.secondOperand === null || calculator.secondOperand === '0') {
             calculator.secondOperand = input;
