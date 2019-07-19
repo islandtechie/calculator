@@ -123,8 +123,7 @@ function processZeroInput(input) {
 }
 
 function processNonZeroOrDecimalInput(input) {
-    if(calculator.subTotal) {
-        calculator.firstOperand = calculator.subTotal;
+    if(calculator.subTotal && calculator.currentOperation === null) {
         calculator.subTotal = null;
     }
 
