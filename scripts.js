@@ -197,6 +197,7 @@ function performEqualOperation() {
     }else{
         calculator.firstOperand = '0';
     }
+    
     calculator.subTotal = formatDecimalPlaces(calculator.firstOperand.toString());
 }
 
